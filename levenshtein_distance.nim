@@ -5,10 +5,10 @@ import unicode
 proc levenshteinDistance( str1: string | seq[Rune]
                         , str2: string | seq[Rune]
                         ): int =
-  var d: seq[seq[int]] = newSeqWith(str1.len + 1, newSeq[int](str2.len + 1))
+  var distance: seq[seq[int]] = newSeqWith(str1.len + 1, newSeq[int](str2.len + 1))
   for i in 0..str1.len:
     for j in 0..str2.len:
-      d[i][j] =
+      distance[i][j] =
         if j == 0: i
         elif i == 0: j
         else: 0
@@ -17,13 +17,13 @@ proc levenshteinDistance( str1: string | seq[Rune]
       let cost =
         if str1[i - 1] == str2[j - 1]: 0
         else: 1
-      d[i][j] =
-        min( [ d[i - 1][j] + 1
-             , d[i][j - 1] + 1
-             , d[i - 1][j - 1] + cost
+      distance[i][j] =
+        min( [ distance[i - 1][j] + 1
+             , distance[i][j - 1] + 1
+             , distance[i - 1][j - 1] + cost
              ]
            )
-  return d[str1.len][str2.len]
+  return distance[str1.len][str2.len]
 
 
 proc main() =
