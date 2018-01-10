@@ -4,9 +4,7 @@ import unicode
 
 proc levenshteinDistance(str1, str2: string | seq[Rune]): int =
   var distance: seq[seq[int]] =
-    newSeqWith( str1.len + 1
-              , newSeq[int](str2.len + 1)
-              )
+    newSeqWith(str1.len + 1, newSeq[int](str2.len + 1))
   for i in 0..str1.len:
     distance[i][0] = i
   for j in 1..str2.len:
@@ -17,11 +15,9 @@ proc levenshteinDistance(str1, str2: string | seq[Rune]): int =
         if str1[i - 1] == str2[j - 1]: 0
         else: 1
       distance[i][j] =
-        min( [ distance[i - 1][j] + 1
-             , distance[i][j - 1] + 1
-             , distance[i - 1][j - 1] + cost
-             ]
-           )
+        min([distance[i - 1][j] + 1,
+             distance[i][j - 1] + 1,
+             distance[i - 1][j - 1] + cost])
   return distance[str1.len][str2.len]
 
 
